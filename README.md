@@ -71,9 +71,15 @@
 | dotenv       | Environment variable management      |
 | nodemon      | Dev server auto-restart              |
 
+## 🌐 Combined Master Flow
+
+![Combined Master Flow](./docs/architecture/combined_master_flow.png)
+
 ---
 
 ## 🗺️ System Architecture
+
+![System Architecture](./docs/architecture/system_architecture.png)
 
 ```mermaid
 graph TD
@@ -120,6 +126,8 @@ graph TD
 
 ## 🔐 Authentication Flow (JWT Based)
 
+![Authentication Flow](./docs/architecture/authentication_flow.png)
+
 ```mermaid
 flowchart TD
     A["User visits App\n(Driver or Supplier)"] --> B["Select Role &\nEnter Credentials"]
@@ -139,6 +147,8 @@ flowchart TD
 ---
 
 ## 📦 Load + Truck Matching Flow
+
+![Load + Truck Matching Flow](./docs/architecture/load_truck_matching_flow.png)
 
 ```mermaid
 flowchart TD
@@ -177,6 +187,8 @@ flowchart TD
 ---
 
 ## 💬 Real-Time Chat Flow (Driver ↔ Supplier)
+
+![Real-Time Chat Flow](./docs/architecture/real_time_chat_flow.png)
 
 ```mermaid
 sequenceDiagram
