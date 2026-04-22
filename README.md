@@ -279,7 +279,7 @@ LoadMitrra/
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/LoadMitrra.git
+git clone https://github.com/asoleshubham0125/LoadMitrra.git
 cd LoadMitrra
 ```
 
@@ -388,7 +388,18 @@ creates    accepts          picks             marks          marks done
 
 ## 🤝 Contributing
 
-Pull requests are welcome! For major changes, please open an issue first to discuss what you'd like to change.
+1. Fork the repository
+2. Create a new branch
+3. Commit your changes
+4. Open a Pull Request
+
+---
+
+## 👨‍💻 Author
+
+**Shubham Asole**  
+GitHub: https://github.com/asoleshubham0125  
+Portfolio: https://shubhamasoleportfolio.vercel.app
 
 ---
 
