@@ -7,7 +7,7 @@ import { io } from "socket.io-client";
 
 export default function ChatPanel() {
   const { loadId } = useParams();
-  const { driver } = useDriverAuth();
+  const { driver, token } = useDriverAuth();
 
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
@@ -44,7 +44,11 @@ export default function ChatPanel() {
 
   const fetchMessages = async () => {
     try {
-      const res = await API.get(`/chat/${loadId}`);
+      const res = await API.get(`/chat/${loadId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setMessages(res.data);
     } catch (err) {
       console.error("Failed to load chat", err);
@@ -57,6 +61,10 @@ export default function ChatPanel() {
     try {
       await API.post(`/chat/${loadId}`, {
         message: text.trim(),
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
 
       setText("");
