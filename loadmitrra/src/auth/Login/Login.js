@@ -202,9 +202,9 @@ function LoginDriver() {
               </div>
 
               <div className="text-end mb-4">
-                <a href="#" className="text-primary text-decoration-none">
+                <span className="text-primary text-decoration-none" style={{ cursor: "pointer" }}>
                   Forgot Password?
-                </a>
+                </span>
               </div>
 
               <button
@@ -231,9 +231,9 @@ function LoginDriver() {
 
             <p className="text-center mt-4 mb-0">
               New to LoadMitrra?{" "}
-              <a href="/auth/" className="text-primary fw-semibold">
+              <span onClick={() => navigate("/auth/")} className="text-primary fw-semibold" style={{cursor: "pointer"}}>
                 Signup
-              </a>
+              </span>
             </p>
           </div>
         </div>

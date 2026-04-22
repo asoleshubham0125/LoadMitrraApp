@@ -34,6 +34,7 @@ export default function ChatPanel() {
     return () => {
       socket.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadId]);
 
   /* 🔽 AUTO SCROLL */

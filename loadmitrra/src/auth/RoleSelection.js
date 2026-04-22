@@ -247,15 +247,16 @@ function RoleSelection() {
         <div className="col text-center mt-4">
           <p className="text-muted mt-4 fs-5">
             Already have an account?{" "}
-            <a
-              href="/auth/login"
+            <span
+              onClick={() => navigate("/auth/login")}
               style={{
                 color: "#1E5EFF",
                 fontWeight: "600",
+                cursor: "pointer"
               }}
             >
               Login
-            </a>
+            </span>
           </p>
           <p className="text-muted fs-6">
             By continuing, you agree to LoadMitrra's{" "}

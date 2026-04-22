@@ -33,6 +33,7 @@ export default function SupplierChatPanel() {
     return () => {
       socket.disconnect();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loadId, supplier]);
 
   /*  AUTO SCROLL */

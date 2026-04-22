@@ -8,7 +8,6 @@ import HistoryPanel from "./overlays/HistoryPanel";
 import ChatPanel from "./overlays/ChatPanel";
 
 import { DriverAuthProvider, useDriverAuth } from "./context/DriverAuthContext";
-import { DriverProvider } from "./context/DriverContext";
 
 function ProtectedDriverRoute() {
   const { driver, loading } = useDriverAuth();

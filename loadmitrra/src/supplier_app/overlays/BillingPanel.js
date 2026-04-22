@@ -14,6 +14,7 @@ export default function BillingPanel() {
     if (!supplier) return;
 
     fetchBilling();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [supplierId, supplier]);
 
   const fetchBilling = async () => {

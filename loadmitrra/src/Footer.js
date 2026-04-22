@@ -57,24 +57,24 @@ export default function Footer() {
             <h5 className="fw-bold">Services</h5>
             <ul className="list-unstyled mt-2">
               <li>
-                <a className="footer-link" href="">
+                <Link className="footer-link" to="/">
                   Fleet Tracking
-                </a>
+                </Link>
               </li>
               <li>
-                <a className="footer-link" href="">
+                <Link className="footer-link" to="/">
                   Smart Load Matching
-                </a>
+                </Link>
               </li>
               <li>
-                <a className="footer-link" href="/for-drivers">
+                <Link className="footer-link" to="/for-drivers">
                   Driver App
-                </a>
+                </Link>
               </li>
               <li>
-                <a className="footer-link" href="">
+                <Link className="footer-link" to="/for-suppliers">
                   Supplier App
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

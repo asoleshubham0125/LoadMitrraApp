@@ -20,6 +20,7 @@ export default function OrdersPanel() {
     }, 5000); // refresh every 5 seconds
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [supplierId, supplier]);
 
   const fetchOrders = async () => {

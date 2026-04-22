@@ -79,14 +79,13 @@ function Navbar() {
           </div>
           <div className="d-flex align-items-center gap-4">
             <div className="dropdown">
-              <a
+              <button
                 className="nav-link dropdown-toggle"
-                href="#"
                 data-bs-toggle="dropdown"
-                style={{ color: "#0F172A" }}
+                style={{ color: "#0F172A", border: "none", background: "transparent" }}
               >
-                <i class="fa-solid fa-earth-americas"></i> EN
-              </a>
+                <i className="fa-solid fa-earth-americas"></i> EN
+              </button>
               <ul className="dropdown-menu">
                 <li>
                   <button className="dropdown-item">EN</button>
