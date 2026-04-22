@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import PanelWrapper from "./PanelWrapper";
 import API from "../../api/axios";
 import { useDriverAuth } from "../context/DriverAuthContext";
+import { io } from "socket.io-client";
 
 export default function ChatPanel() {
   const { loadId } = useParams();
@@ -12,13 +13,27 @@ export default function ChatPanel() {
   const [text, setText] = useState("");
   const bottomRef = useRef(null);
 
-  /* 🔄 AUTO REFRESH */
+  /* 🔄 SOCKET IMPLEMENTATION */
   useEffect(() => {
     if (!loadId) return;
 
     fetchMessages();
-    const interval = setInterval(fetchMessages, 3000);
-    return () => clearInterval(interval);
+
+    // Determine socket URL (remove /api from base URL)
+    const baseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
+    const socketUrl = baseUrl.replace(/\/api\/?$/, "");
+    
+    const socket = io(socketUrl);
+
+    socket.emit("join_room", loadId);
+
+    socket.on("receive_message", (newMessage) => {
+      setMessages((prev) => [...prev, newMessage]);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, [loadId]);
 
   /* 🔽 AUTO SCROLL */
@@ -44,7 +59,7 @@ export default function ChatPanel() {
       });
 
       setText("");
-      fetchMessages();
+      // fetchMessages(); handled by socket
     } catch (err) {
       console.error("Failed to send message", err);
     }

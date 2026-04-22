@@ -57,12 +57,31 @@ router.post("/:loadId", auth(["driver", "supplier"]), async (req, res) => {
       return res.status(403).json({ error: "Chat closed for completed load" });
     }
 
+    const isAllowed =
+      load.driverId?.toString() === req.user.id ||
+      load.supplierId.toString() === req.user.id;
+
+    if (!isAllowed) {
+      return res.status(403).json({ error: "Access denied" });
+    }
+
+    let determinedRole = req.user.role;
+    if (!determinedRole) {
+      determinedRole = load.driverId?.toString() === req.user.id ? "driver" : "supplier";
+    }
+
     const chat = await ChatMessage.create({
       loadId: req.params.loadId,
       senderId: req.user.id,
       senderRole: determinedRole,
       message,
     });
+
+    //  BROADCAST TO SOCKET.IO ROOM
+    const io = req.app.get("io");
+    if (io) {
+      io.to(req.params.loadId).emit("receive_message", chat);
+    }
 
     res.status(201).json(chat);
   } catch (err) {

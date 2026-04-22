@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 import { useSupplierAuth } from "../context/SupplierAuthContext";
 import SupplierPanelWrapper from "./PanelWrapper";
+import SupplierLoadDetailsPanel from "./LoadDetailsPanel";
 import { shipmentStatusConfig } from "../utils/shipmentStatusConfig";
 
 /**
@@ -21,6 +22,7 @@ export default function ActiveShipmentsPanel() {
   const navigate = useNavigate(); // ✅ FIX
   const [loads, setLoads] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedLoad, setSelectedLoad] = useState(null);
   const { supplier, token } = useSupplierAuth();
 
   useEffect(() => {
@@ -54,8 +56,17 @@ export default function ActiveShipmentsPanel() {
     }
   };
 
+  const openDetails = (load) => {
+    setSelectedLoad(load);
+  };
+
+  const closeDetails = () => {
+    setSelectedLoad(null);
+  };
+
   return (
-    <SupplierPanelWrapper title="Active Shipments">
+    <>
+      <SupplierPanelWrapper title="Active Shipments">
       <div className="p-3">
         {loading && <div className="text-muted">Loading shipments...</div>}
 
@@ -152,19 +163,31 @@ export default function ActiveShipmentsPanel() {
               </div>
 
               {/* CHAT BUTTON */}
-              <button
-                className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1 mt-2"
-                onClick={() =>
-                  navigate(`/supplier/${supplierId}/chat/${load._id}`)
-                }
-              >
-                <span className="material-symbols-outlined">chat</span>
-                Chat
-              </button>
+              <div className="d-flex gap-2 mt-3 pt-3 border-top">
+                <button
+                  className="btn btn-light btn-sm border flex-grow-1"
+                  onClick={() => openDetails(load)}
+                >
+                  Details
+                </button>
+                <button
+                  className="btn btn-outline-secondary btn-sm d-flex align-items-center justify-content-center gap-1 flex-grow-1"
+                  onClick={() =>
+                    navigate(`/supplier/${supplierId}/chat/${load._id}`)
+                  }
+                >
+                  <span className="material-symbols-outlined align-middle" style={{fontSize: "16px"}}>chat</span>
+                  Chat
+                </button>
+              </div>
             </div>
           );
         })}
       </div>
     </SupplierPanelWrapper>
+    {selectedLoad && (
+      <SupplierLoadDetailsPanel load={selectedLoad} onClose={closeDetails} />
+    )}
+    </>
   );
 }

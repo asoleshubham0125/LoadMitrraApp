@@ -9,10 +9,12 @@ import {
 } from "../services/driverApi";
 import { useDriverAuth } from "../context/DriverAuthContext";
 import { useDriverMap } from "../context/DriverMapContext";
+import { useNavigate } from "react-router-dom";
 
 export default function MyLoadsPanel() {
   const { driver } = useDriverAuth();
   const { setRoute } = useDriverMap();
+  const navigate = useNavigate();
 
   const [loads, setLoads] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -226,6 +228,13 @@ export default function MyLoadsPanel() {
                   </div>
 
                   <div className="d-flex gap-2">
+                    <button
+                      className="btn btn-outline-secondary btn-sm"
+                      onClick={() => navigate(`/driver/${driver._id || driver.id}/chat/${load._id}`)}
+                    >
+                      <span className="material-symbols-outlined align-middle" style={{fontSize: "16px"}}>chat</span> Chat
+                    </button>
+
                     <button
                       className="btn btn-light btn-sm border"
                       onClick={() => openDetails(load)}

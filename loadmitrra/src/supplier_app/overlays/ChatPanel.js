@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import SupplierPanelWrapper from "./PanelWrapper";
 import API from "../../api/axios";
 import { useSupplierAuth } from "../context/SupplierAuthContext";
+import { io } from "socket.io-client";
 
 export default function SupplierChatPanel() {
   const { loadId, supplierId } = useParams();
@@ -11,16 +12,30 @@ export default function SupplierChatPanel() {
   const bottomRef = useRef(null);
   const { supplier, token } = useSupplierAuth();
 
-  /* 🔄 AUTO REFRESH */
+  /* SOCKET IMPLEMENTATION */
   useEffect(() => {
     if (!loadId || !supplier) return;
 
     fetchMessages();
-    const interval = setInterval(fetchMessages, 3000); // Polling every 3 seconds
-    return () => clearInterval(interval);
+
+    // Determine socket URL (remove /api from base URL)
+    const baseUrl = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
+    const socketUrl = baseUrl.replace(/\/api\/?$/, "");
+    
+    const socket = io(socketUrl);
+
+    socket.emit("join_room", loadId);
+
+    socket.on("receive_message", (newMessage) => {
+      setMessages((prev) => [...prev, newMessage]);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
   }, [loadId, supplier]);
 
-  /* 🔽 AUTO SCROLL */
+  /*  AUTO SCROLL */
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -55,7 +70,7 @@ export default function SupplierChatPanel() {
       );
 
       setText("");
-      fetchMessages(); // Refresh immediately after sending
+      // fetchMessages(); handled by socket
     } catch (err) {
       console.error("Failed to send message", err);
     }

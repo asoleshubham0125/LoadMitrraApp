@@ -3,11 +3,40 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const http = require("http");
+const { Server } = require("socket.io");
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
 const app = express();
+const server = http.createServer(app);
+
+// Configure Socket.io
+const io = new Server(server, {
+  cors: {
+    origin: "*", 
+    methods: ["GET", "POST"]
+  }
+});
+
+// Make 'io' available inside Express routes
+app.set("io", io);
+
+io.on("connection", (socket) => {
+  console.log(`New Socket Connection: ${socket.id}`);
+
+  // User joins a specific chat room by Load ID
+  socket.on("join_room", (loadId) => {
+    socket.join(loadId);
+    console.log(`Socket ${socket.id} joined room: ${loadId}`);
+  });
+
+  socket.on("disconnect", () => {
+    console.log(`Socket Disconnected: ${socket.id}`);
+  });
+});
+
 app.use(cors({}));
 app.use(express.json());
 
@@ -22,7 +51,7 @@ async function startServer() {
     await mongoose.connect(MONGO_URI);
     console.log("MongoDB Connected");
 
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
   } catch (error) {
