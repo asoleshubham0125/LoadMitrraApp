@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚛 LoadMitrra
+# <img src="loadmitrra/public/LoadMitrra.png" alt="LoadMitrra Logo" width="50" style="vertical-align: middle;" /> LoadMitrra
 
 ### Full-Stack MERN Logistics & Freight Matching Platform
 
