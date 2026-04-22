@@ -58,7 +58,7 @@ export default function SupplierChatPanel() {
     if (!text.trim()) return;
 
     try {
-      await API.post(
+      const res = await API.post(
         `/chat/${loadId}`,
         {
           message: text.trim(),
@@ -71,7 +71,14 @@ export default function SupplierChatPanel() {
       );
 
       setText("");
-      // fetchMessages(); handled by socket
+      
+      // OPTIMISTIC UPDATE / FALLBACK: Instantly show message to sender
+      setMessages((prev) => {
+        // Prevent duplicate if socket already added it
+        if (prev.find((m) => m._id === res.data._id)) return prev;
+        return [...prev, res.data];
+      });
+      
     } catch (err) {
       console.error("Failed to send message", err);
     }
